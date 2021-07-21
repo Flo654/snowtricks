@@ -1,7 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}homepage{% endblock %}
+{% block title %}Homepage{% endblock %}
 
-{% block body %}
-<h1>homepage</h1>
+{% block jumbo %}
+    <div class="jumbo">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="bloc">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block body %}  
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active">Home</li>
+    </ol>
+
+    {# <div class="mb-5 text-center ">
+        <h2 class="p rounded">LES TRICKS</h2>
+    </div> #}
+
+    {{ render(path('paginated_tricks', {page: 1})) }}
+    
+    <div class="mt-5 text-center ">
+        <a href="{{path('paginated_tricks',{'page': page + 1})}}" id="loadMore" class="p rounded" name = "{{page + 1 }}">Load more ...</a>
+    </div>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/assets/js/loadMore.js"> </script>
+
 {% endblock %}

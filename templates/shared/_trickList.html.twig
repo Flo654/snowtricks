@@ -1,19 +1,25 @@
 <div class="row " id="trick">    
     {% for trick in tricks %}
         <div class="mb-5 col-md-6 col-lg-6 col-xl-4 ">
-             <a href="{{path('trick_show', {
-                        'category_slug': trick.category.slug,
-                        'slug': trick.slug
-                    })}}" class="ct ">
+             
                 <div class="card "  >
                     <img class="" src="assets/img/slide-trick.jpg" alt="image du produit">
                     <div class="card-body">
-                        <h4 class="card-title">{{trick.name | upper }}</h4>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h4 class="card-title">{{trick.name | upper }}</h4>
+                            <div>
+                                <a href="#"><i class="fas fa-pen me-2 p-1 border rounded"></i></a>
+                                <a href="#"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a>
+                            </div>
+                        </div>                        
                         <span class="badge bg-info">{{trick.Category.name}}</span>
-                        <p class="card-text"></p>
+                        <div class="d-flex justify-content-end">
+                            <a href="#" class="btn btn-secondary ">See details</a>
+                        </div>
+                        
                     </div>
                 </div>
-            </a>
+            
         </div>
     {% endfor %}
 </div>
