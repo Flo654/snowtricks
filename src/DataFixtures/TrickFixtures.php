@@ -2,10 +2,8 @@
 
 namespace App\DataFixtures;
 
-
 use DateTime;
 use App\Entity\Trick;
-use App\Entity\Category;
 use App\DataFixtures\CategoryFixture;
 use App\Repository\CategoryRepository;
 use Doctrine\Persistence\ObjectManager;
@@ -13,9 +11,9 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class TrickFixture extends Fixture implements DependentFixtureInterface
+class TrickFixtures extends Fixture implements DependentFixtureInterface
 {
-
+    
     protected $slugger;
     protected $category;
 
@@ -24,29 +22,29 @@ class TrickFixture extends Fixture implements DependentFixtureInterface
         $this->slugger = $slugger;
         $this->category = $category;
     }
-
     
-
+    
     public function load(ObjectManager $manager)
     {
-        $trick1 = new Trick;
-        $trick1->setName('figure 1')
+        $trick = new Trick();
+        $trick->setName('Switch ollie')
             ->setDescription("Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident harum ratione maxime debitis dignissimos fuga ad delectus veniam recusandae eos.")
-            ->setSlug($this->slugger->slug('figure 1'))
+            ->setSlug($this->slugger->slug($trick->getName()))
             ->setCreatedAt(new DateTime('NOW'))
             ->setUpdatedAt(new DateTime('NOW'))
-            ->setCategory($this->category->findOneBy(['name' => 'straight air'])->getName())
+            ->setCategory($this->category->findOneBy(['name' => 'straight air']))
         ;
-
-        $manager->persist($trick1);
-        $manager->flush();
+        $manager->persist($trick);
         
+        $manager->flush();
+
+        $manager->flush();
     }
 
     public function getDependencies()
-    {
+    {        
         return [
             CategoryFixture::class
-        ];
+        ];        
     }
 }

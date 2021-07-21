@@ -2,16 +2,25 @@
 
 namespace App\DataFixtures;
 
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use DateTime;
+use App\Entity\Trick;
+use App\DataFixtures\CategoryFixture;
+use App\Repository\CategoryRepository;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture 
 {
+    
+    
+    
+    
     public function load(ObjectManager $manager)
     {
-        // $product = new Product();
-        // $manager->persist($product);
-
-        $manager->flush();
+        
     }
+
+   
 }
