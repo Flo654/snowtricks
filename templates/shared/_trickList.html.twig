@@ -14,7 +14,12 @@
                         </div>                        
                         <span class="badge bg-info">{{trick.Category.name}}</span>
                         <div class="d-flex justify-content-end">
-                            <a href="#" class="btn btn-secondary ">See details</a>
+                            <a href="{{path('trick_show', {
+                                        'category_slug': trick.category.slug,
+                                        'slug': trick.slug })}}" 
+                                class="btn btn-secondary ">
+                                See details
+                            </a>
                         </div>
                         
                     </div>
