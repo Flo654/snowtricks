@@ -17,6 +17,12 @@
         </header>
 
         {% block jumbo %}{% endblock %}
+        
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
 
         <section class="container-fluid mb-5 top" id="tricks">
             {% block body %}{% endblock %}

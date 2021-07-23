@@ -77,6 +77,13 @@
     margin-bottom: 0;
 }
 
-.top{
-    margin-top: 2rem!important;
+.form-label{
+    margin-top: 1rem;
+    margin-bottom: 0;
 }
+
+.vertical {
+    position: absolute; /* postulat de départ */
+    top: 40%; left: 50%; /* à 50%/50% du parent référent */
+    transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+  }
