@@ -17,9 +17,9 @@
         </header>
 
         {% block jumbo %}{% endblock %}
-        
+
         {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
+            <div class="alert alert-success mt-5">
                 {{ message }}
             </div>
         {% endfor %}
