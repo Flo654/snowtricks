@@ -28,8 +28,9 @@
 
     {{ render(path('paginated_tricks', {page: 1})) }}
     
-    <div class="mt-5 text-center ">
+    <div class="mt-5 text-center page" >
         <a href="{{path('paginated_tricks',{'page': page + 1})}}" id="loadMore" class="p rounded" name = "{{page + 1 }}">Load more ...</a>
+
     </div>
 
 
