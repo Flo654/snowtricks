@@ -7,10 +7,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <h4 class="card-title">{{trick.name | upper }}</h4>
+                            {% if app.user %}
                             <div>
                                 <a href="#"><i class="fas fa-pen me-2 p-1 border rounded"></i></a>
                                 <a href="#"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a>
                             </div>
+                            {% endif %}
                         </div>                        
                         <span class="badge bg-info">{{trick.Category.name}}</span>
                         <div class="d-flex justify-content-end">
@@ -24,7 +26,10 @@
                         
                     </div>
                 </div>
+                
             
         </div>
     {% endfor %}
+    
 </div>
+<input type="hidden" id='page' name='{{nbOfPages}}'>
