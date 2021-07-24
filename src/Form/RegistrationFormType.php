@@ -21,30 +21,18 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('fullname', TextType::class, [
                 'label' => "Fullname",
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' =>[
-                    'class' => 'form-control',
-                    'placeholder' => 'entrez votre nom'
+                'attr' =>[                    
+                    'placeholder' => 'your name here...'
                 ]
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' =>[
-                    'class' => 'form-control',
-                    'placeholder' => 'entrez votre mail'
+                'attr' =>[                    
+                    'placeholder' => 'your mail here...'
                 ]
-
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 
-                'attr' => [
-                    'class' => 'form-check-input ms-3'
-                ],
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
@@ -53,14 +41,9 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('plainPassword', PasswordType::class, [
-                'label' => 'Password',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' =>[
-                    'class' => 'form-control',
-                    'placeholder' => 'entrez votre mail',
-                    'autocomplete' => 'new-password'
+                'label' => 'Password',               
+                'attr' =>[                    
+                    'placeholder' => 'your password here...'
                 ],                
                 'mapped' => false,
                 'constraints' => [
