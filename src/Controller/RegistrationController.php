@@ -21,11 +21,10 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $user = new User();
-        $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->handleRequest($request);
+        $form = $this->createForm(RegistrationFormType::class, $user)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encode the plain password
+            
             $user
                 ->setPassword(
                     $userPasswordHasher->hashPassword(
@@ -42,8 +41,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Account Created. You can connect now !');
-            // do anything else you need here, like send an email
-
+            
             return $this->redirectToRoute('home');
         }
 
