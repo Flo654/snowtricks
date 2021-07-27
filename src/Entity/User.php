@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
- * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * 
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -24,8 +24,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * 
      */
     private $email;
 
@@ -41,8 +40,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
      /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=255)
+     * 
      */
     private $fullName;
 
@@ -54,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="datetime")
      */
-    private $UpdatedAt;
+    private $updatedAt;
 
     public function getId(): ?int
     {
@@ -171,12 +170,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->UpdatedAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeInterface $UpdatedAt): self
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->UpdatedAt = $UpdatedAt;
+        $this->UpdatedAt = $updatedAt;
 
         return $this;
     }
