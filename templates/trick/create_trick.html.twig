@@ -8,14 +8,15 @@
             
                 
                 {{ form_start(formView) }}
+
                     {{ form_row(formView.name) }}
                     {{ form_row(formView.description) }}
                     {{ form_row(formView.category) }}
-                    <div class="form-control mt-4">
-                    {{ form_row(formView.filename) }}
-                    </div>
+                    <button type="button" class="add_item_link btn btn-success mb-3 mt-4" data-collection-holder-class="pictures">Add image</button>
+                    <ul class="pictures" data-index="{{ formView.pictures|length > 0 ? formView.pictures|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formView.pictures.vars.prototype)|e('html_attr') }}"></ul>
                     
                     
+
                     <button type="submit" class="btn btn-primary mt-3 mb-3">Create</button>
                 {{ form_end(formView) }}
             
@@ -24,4 +25,50 @@
     </div>
 
     
+{% endblock %}
+
+
+{% block javascripts %}
+
+<script>
+
+const addFormToCollection = (e) => {
+    const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+  
+    const item = document.createElement('li');
+    const img = document.createElement('img')
+    item.classList.add('list-group-item')
+    item.classList.add('mb-3')
+
+    item.innerHTML = collectionHolder
+    .dataset
+    .prototype
+    .replace(
+      /__name__/g,
+      collectionHolder.dataset.index
+    );
+
+    collectionHolder.appendChild(item);
+
+    const col = collectionHolder.lastChild.lastChild.lastChild.appendChild(img)
+    const input = collectionHolder.lastChild.lastChild.lastChild
+    const input2 = input.querySelector('input')
+    input2.addEventListener('change', ()=>{
+        var url = URL.createObjectURL(input2.files[0]);
+        img.src = url
+        img.classList.add('img-thumbnail')
+        input2.remove(input2.files[0].name)
+    })    
+  collectionHolder.dataset.index++;
+
+ 
+};
+document
+  .querySelectorAll('.add_item_link')
+  .forEach(btn => btn.addEventListener("click", addFormToCollection))
+;
+
+
+</script>
+
 {% endblock %}
