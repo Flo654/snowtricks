@@ -2,71 +2,144 @@
 
 {% block title %}Create a trick{% endblock %}
 
-{% block body %}
+{# {% block body %}
     <div class="container mt-5 ">
         <div class="row justify-content-center ">
             
                 
-                {{ form_start(formView) }}
-
-                    {{ form_row(formView.name) }}
-                    {{ form_row(formView.description) }}
-                    {{ form_row(formView.category) }}
-                    <button type="button" class="add_item_link btn btn-success mb-3 mt-4" data-collection-holder-class="pictures">Add image</button>
-                    <ul class="pictures" data-index="{{ formView.pictures|length > 0 ? formView.pictures|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formView.pictures.vars.prototype)|e('html_attr') }}"></ul>
-                    
-                    
-
-                    <button type="submit" class="btn btn-primary mt-3 mb-3">Create</button>
-                {{ form_end(formView) }}
+                {{ form_start(form) }}                    
+                    {{ include("trick/form/_form.html.twig", {form: form}) }}
+                    <button class="btn btn-primary mt-5">create</button>
+                {{ form_end(form, {render_rest: false}) }}
             
             
         </div>
     </div>
 
     
+{% endblock %} #}
+
+{% block body %}
+    {{ form_start(form) }} 
+     <div class="container top">
+            <ol class="breadcrumb ">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Create</li>
+            </ol>
+
+            <div class="headPicture-wrapper">
+                <img class="img-fluid" src="/assets/img/jumbo-img.jpg" alt="">
+            </div>
+            <hr>
+
+            <div class="trick-title container d-flex align-items-center ">
+                
+                <div class="pl-3  d-flex">
+                    <div>{{ form_row(form.name) }}</div>
+               
+                </div>
+            
+            </div>
+            <hr>
+            
+            <div class="trick-info container">
+                <div class="row ">                    
+                    <div class="col-md-5">
+                        {{ form_row(form.category) }}
+                    </div>
+                    
+                </div>            
+            </div>
+            <hr>           
+            
+            <div class="trick-description">
+                
+                <p class="text-justify">{{ form_row(form.description) }}</p>
+            </div>
+            {{ form_row(form.video) }}
+        {{ include("trick/form/_form.html.twig", {form: form}) }}
+        <button class="btn btn-primary mt-5">create trick</button>
+    {{ form_end(form, {render_rest: false}) }}
 {% endblock %}
-
-
 {% block javascripts %}
 
 <script>
 
-const addFormToCollection = (e) => {
-    const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-  
-    const item = document.createElement('li');
-    const img = document.createElement('img')
-    item.classList.add('list-group-item')
-    item.classList.add('mb-3')
-
-    item.innerHTML = collectionHolder
+const newItem = (e)=>{
+    const collectionHolder = document.querySelector(e.currentTarget.dataset.collection)
+    const item = document.createElement('div');
+    
+    item.classList.add('col-md-4');
+    item.classList.add('mb-3');
+    
+    item.innerHTML += collectionHolder
     .dataset
     .prototype
     .replace(
-      /__name__/g,
-      collectionHolder.dataset.index
-    );
-
-    collectionHolder.appendChild(item);
-
-    const col = collectionHolder.lastChild.lastChild.lastChild.appendChild(img)
-    const input = collectionHolder.lastChild.lastChild.lastChild
-    const input2 = input.querySelector('input')
-    input2.addEventListener('change', ()=>{
-        var url = URL.createObjectURL(input2.files[0]);
-        img.src = url
+        /__name__/g, 
+        collectionHolder.dataset.index
+    )
+    item.querySelector('.btn-remove').addEventListener('click', ()=> item.remove()) 
+    
+    collectionHolder.appendChild(item)
+    input2 = collectionHolder.querySelector('.custom-file')
+    input = collectionHolder.querySelector('input')
+    
+    collectionHolder.querySelectorAll('.custom-file').forEach(item => { item.addEventListener('change', (e)=>{
+        const img = document.createElement('img')
         img.classList.add('img-thumbnail')
-        input2.remove(input2.files[0].name)
+        console.log(e.currentTarget)
+        e.currentTarget.appendChild(img)        
+        var url = URL.createObjectURL(e.currentTarget.querySelector('input').files[0]);
+        img.src = url
+        e.currentTarget.querySelector('input').remove(e.currentTarget.querySelector('input').files[0].name)
+        console.log(e.currentTarget)
+    })
+         
     })    
-  collectionHolder.dataset.index++;
+    collectionHolder.dataset.index ++;    
+}
+document.querySelectorAll('.btn-remove')
+.forEach(btn => btn.addEventListener('click', (e)=> e.currentTarget.closest('.item').remove()));
+
+document.querySelectorAll('.btn-new')
+.forEach(btn => btn.addEventListener('click', newItem));
+
+// const addFormToCollection = (e) => {
+//     const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+  
+//     const item = document.createElement('li');
+//     const img = document.createElement('img')
+//     item.classList.add('list-group-item')
+//     item.classList.add('mb-3')
+
+//     item.innerHTML = collectionHolder
+//     .dataset
+//     .prototype
+//     .replace(
+//       /__name__/g,
+//       collectionHolder.dataset.index
+//     );
+
+//     collectionHolder.appendChild(item);
+
+//     const col = collectionHolder.lastChild.lastChild.lastChild.appendChild(img)
+//     const input = collectionHolder.lastChild.lastChild.lastChild
+//     const input2 = input.querySelector('input')
+//     input2.addEventListener('change', ()=>{
+//         var url = URL.createObjectURL(input2.files[0]);
+//         img.src = url
+//         img.classList.add('img-thumbnail')
+//         input2.remove(input2.files[0].name)
+//     })    
+//   collectionHolder.dataset.index++;
 
  
-};
-document
-  .querySelectorAll('.add_item_link')
-  .forEach(btn => btn.addEventListener("click", addFormToCollection))
-;
+// };
+// document
+//   .querySelectorAll('.add_item_link')
+//   .forEach(btn => btn.addEventListener("click", addFormToCollection))
+// ;
 
 
 </script>

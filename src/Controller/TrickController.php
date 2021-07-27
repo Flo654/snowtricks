@@ -43,24 +43,20 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             
-            $uploadFile->uploadPictures($form, $trick);
-            
+            $uploadFile->uploadPictures($form, $trick);            
             $trick
                 ->setCreatedAt(new DateTime('NOW'))
                 ->setUpdatedAt(new DateTime('NOW'))
                 ->setSlug(strtolower($slugger->slug($trick->getName())))              
-            ;           
-
+            ;
             $entityManager->persist($trick);            
             $entityManager->flush() ;
-
-            $this->addFlash('success', 'trick created with success');
-            
+            $this->addFlash('success', 'trick created with success');            
             return $this->redirectToRoute('trick_create');
         }
 
         return $this->render('trick/create_trick.html.twig', [
-            'formView' => $form->createView()
+            'form' => $form->createView()
         ]);
 
         
