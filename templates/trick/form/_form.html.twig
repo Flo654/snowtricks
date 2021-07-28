@@ -1,7 +1,7 @@
 {{ form_widget(form._token) }}
                     
  
-<button type="button" class="btn btn-success btn-new mt-3" data-collection="#pictures">Add image</button>
+<button type="button" class="btn btn-success btn-new-image mt-3" data-collection="#pictures">Add image</button>
 <div
         id="pictures"
         class="row"
@@ -14,3 +14,16 @@
     {% endfor %}
 </div>
 
+
+<button type="button" class="btn btn-success btn-new-video mt-3" data-collection="#videos">Add video</button>
+<div
+        id="videos"
+        class="row"
+        data-prototype="{{ include("trick/form/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}"
+        data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}">
+    {% for video in form.videos %}
+        <div class="col-4">
+            {{ include("trick/form/_picture.html.twig", {form: video}) }}
+        </div>
+    {% endfor %}
+</div>
