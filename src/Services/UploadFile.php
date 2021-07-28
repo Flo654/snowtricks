@@ -12,7 +12,7 @@ class UploadFile
 {
     protected $targetDirectory;
 
-    public function __construct($targetDirectory)
+    public function __construct($targetDirectory )
     {
         $this->targetDirectory = $targetDirectory;
     }
@@ -39,11 +39,13 @@ class UploadFile
                 ->setCreatedAt(new DateTime('NOW'))
                 ->setUpdatedAt(new DateTime('NOW'))
             ;
+            
             $trick->addPicture($picture);
+            
         }
         
     }
-
+    
     public function getTargetDirectory()
     {
         return $this->targetDirectory;

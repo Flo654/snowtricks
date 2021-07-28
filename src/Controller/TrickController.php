@@ -43,7 +43,8 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             
-            $uploadFile->uploadPictures($form, $trick);            
+            $uploadFile->uploadPictures($form, $trick);
+                        
             $trick
                 ->setCreatedAt(new DateTime('NOW'))
                 ->setUpdatedAt(new DateTime('NOW'))
