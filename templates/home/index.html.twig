@@ -21,11 +21,12 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item active">Home</li>
     </ol>
-
-    {# <div class="mb-5 text-center ">
-        <h2 class="p rounded">LES TRICKS</h2>
-    </div> #}
-
+    {% if app.user %}
+    <div class="mb-5 mt-4">
+        <a href="{{ path('trick_create') }}" class="btn btn-success">Add Trick</a>  
+    </div>
+    {% endif %}
+    
     {{ render(path('paginated_tricks', {page: 1})) }}
     
     <div class="mt-5 text-center page" >

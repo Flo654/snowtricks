@@ -18,6 +18,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class TrickController extends AbstractController
 {
@@ -53,7 +54,10 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);            
             $entityManager->flush() ;
             $this->addFlash('success', 'trick created with success');            
-            return $this->redirectToRoute('trick_create');
+            return $this->redirectToRoute('trick_show',[
+                'category_slug' => $trick->getCategory()->getSlug(),
+                'slug' => $trick->getSlug()
+            ]);
         }
 
         return $this->render('trick/create_trick.html.twig', [
@@ -63,5 +67,47 @@ class TrickController extends AbstractController
         
     }
 
+    /**
+     * Undocumented function
+     *
+     * @Route("/{id}/edit", name="trick_edit")
+     */
+    public function edit(Request $request, EntityManagerInterface $entityManager, Trick $trick, UploadFile $uploadFile) :Response
+    {
+        $form = $this->createForm(TrickFormType::class, $trick)->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid() ){
+            
+            //$uploadFile->unlinkPictures($form, $trick);
+            $uploadFile->uploadPictures($form, $trick);                       
+            $entityManager->flush() ;
+            $this->addFlash('success', 'trick modified with success');            
+            return $this->redirectToRoute('trick_show',[
+                'category_slug' => $trick->getCategory()->getSlug(),
+                'slug' => $trick->getSlug()
+            ]);
+        }
+
+
+        return $this->render('trick/edit3.html.twig', [
+            'trick' => $trick,
+            'form' => $form->createView()
+        ]);
+    }
     
+    /**
+     * 
+     *
+     * @Route("/delete/image/{id}", name="picture_remove_image", methods={"DELETE"})
+     */
+    public function removeImage(Picture $picture, Request $request, EntityManagerInterface $entityManager)
+    {
+       
+
+        $nom = $picture->getFilename();
+        unlink($this->getParameter('images_directory').'/'.$nom);
+        $entityManager->remove($picture);
+        $entityManager->flush(); 
+        return new JsonResponse(['success' => 1]);
+    }
 }

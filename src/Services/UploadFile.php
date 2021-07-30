@@ -17,35 +17,44 @@ class UploadFile
         $this->targetDirectory = $targetDirectory;
     }
 
-    public function uploadPictures($form, $trick){
-
-        $images = $form->get('pictures');
-        
+    public function uploadPictures($form, $trick)
+    {
+        $images = $form->get('pictures');        
         foreach ($images as $image) {
-            $filename = $image->get('filename')->getData();
-            $originalFilename= pathinfo($filename->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = $originalFilename . '-' .uniqid().'.'.$image->get('filename')->getData()->guessExtension();
+            
+            $pictureToAdd= $image->get('filename')->getData();
+            if ($pictureToAdd) {
+                $pictureToRemove = $image->getData()->getFilename();
+                if ($pictureToRemove){
+                    unlink($this->getTargetDirectory().'/'. $pictureToRemove);
+                    $picture = $image->getdata();
+                    $trick->removePicture($picture);
+                }
+                $originalFilename= pathinfo($pictureToAdd->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' .uniqid().'.'.$image->get('filename')->getData()->guessExtension();
                 
-            try {
-                $filename->move(
-                    $this->getTargetDirectory(),
-                    $newFilename
-                );
-            } catch (FileException $exception) {
-                // ... handle exception if something happens during file upload
-            }
-            $picture = $image->getdata()
-                ->setFilename($newFilename)
-                ->setCreatedAt(new DateTime('NOW'))
-                ->setUpdatedAt(new DateTime('NOW'))
-            ;
+                try {
+                    $pictureToAdd->move(
+                        $this->getTargetDirectory(),
+                        $newFilename
+                    );
+                } catch (FileException $exception) {
+                    // ... handle exception if something happens during file upload
+                }
+                $picture = $image->getdata()
+                    ->setFilename($newFilename)
+                    ->setCreatedAt(new DateTime('NOW'))
+                    ->setUpdatedAt(new DateTime('NOW'))
+                ;
             
-            $trick->addPicture($picture);
-            
+                $trick->addPicture($picture);
+            }           
         }
         
+          
     }
     
+
     public function getTargetDirectory()
     {
         return $this->targetDirectory;

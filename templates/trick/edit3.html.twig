@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit a trick{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.description) }}
+        {{ form_widget(form._token) }}
+        {{ form_row(form.category) }}
+        <button type="button" class="btn btn-success btn-new-image mt-3" data-collection="#pictures">Add image</button>
+        <div
+                id="pictures"
+                class="row"
+                data-prototype="{{ include("trick/form/_picture.html.twig", {form: form.pictures.vars.prototype})|e("html_attr") }}"
+                data-index="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}"
+            >
+            
+            </div>   
+            {% for form in form.pictures %}
+                
+                <div class="mt-2 test">
+                    {{form_row(form.filename)}}
+                    <img src="{{ asset('/uploads/' ~ form.vars.value.filename )}}" alt="" class="img-thumbnail previsu">
+                    <div class="mt-2">
+                        <a href=" {{path('picture_remove_image', {'id': form.vars.value.id })}}" class="btn btn-danger remove">remove</a>
+                        <button type="button" class="btn btn-primary modify">modify</button>
+                    </div>                         
+                </div>       
+                
+            {% endfor %} 
+         
+        
+        {% for form in form.videos %}
+            <div class="mt-5">
+                {{form_row(form.videoUrl)}}
+            </div>
+            
+             {# {{ dump(form) }}  #}    
+
+        {% endfor %}
+        
+        
+        <button class="btn btn-primary mt-5">edit trick</button>
+    {{ form_end(form, {render_rest: false}) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/assets/js/uploadFiles.js"></script>
+    <script src="/assets/js/modifyAndRemovePicture.js"></script>
+
+{% endblock %}

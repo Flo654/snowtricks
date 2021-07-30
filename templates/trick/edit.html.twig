@@ -1,0 +1,71 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Edit {{ trick.name }}{% endblock %}
+
+{% block body %}
+<h1>Edition du trick: {{ trick.name }}</h1>
+
+{{ form_start(form) }} 
+    {{ form_row(form.name) }}
+    {{ form_row(form.category) }}    
+    {{ form_row(form.description) }}
+    {{ form_widget(form._token) }}
+    <button type="button" class="btn btn-success btn-new-image mt-3 mb-2" data-collection="#pictures">Add image</button>
+    <div
+        id="pictures"
+        class="row"
+        data-prototype="{{ include("trick/form/_picture.html.twig", {form: form.pictures.vars.prototype})|e("html_attr") }}"
+        data-index="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}"
+    >
+    <div class="row">
+        {% for picture in trick.pictures %}
+        <div class='mb-2 mt-2 col-6'>                    
+                <img class= "img-thumbnail" src="{{ asset('/uploads/'~ picture.filename) }}" alt="">
+                <div class=" d-block mt-1">
+                    <a href="{{ path('picture_remove_image', {'id': picture.id}) }}" type="button" class="btn btn-danger remove">remove</a>
+                    <a href="" class="btn btn-primary modify">modify</a>
+                </div>                    
+                
+
+            
+        </div>
+        {% endfor %}
+    </div>
+           
+            </div>
+
+            <button type="button" class="btn btn-success btn-new-video mt-3" data-collection="#videos">Add video</button>
+            <div
+                    id="videos"
+                    class="row"
+                    data-prototype="{{ include("trick/form/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}"
+                    data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
+                >
+                <div class="row">
+                    {% for video in trick.videos %}
+                    <div class='mb-2 mt-2 col-6'>                    
+                            <iframe src="{{ video.videoUrl }}?autoplay=1" frameborder="0" ></iframe>
+                            <div class=" d-block mt-1">
+                                <a href="{{ path('picture_remove_image', {'id': video.id}) }}" type="button" class="btn btn-danger remove">remove</a>
+                                <a href="" class="btn btn-primary modify">modify</a>
+                            </div>                    
+                            
+
+                        
+                    </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+        <button class="btn btn-primary mt-5">Edit trick</button>
+        </div>
+
+        
+    {{ form_end(form, {render_rest: false}) }}
+{% endblock %}
+{% block javascripts %}<script src="/assets/js/uploadFiles.js"></script>
+
+
+{% endblock %}
+
+
