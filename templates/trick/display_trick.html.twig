@@ -2,6 +2,10 @@
 
 {% block title %}{{ trick.name }}{% endblock %}
     {% block body %}
+     {% if trick.pictures is defined %}
+     <h2>coucou</h2>
+     {% endif %}
+          
         <div class="container top">
             <ol class="breadcrumb ">
                 <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
@@ -34,7 +38,7 @@
                 </div>
                 {# {% if app.user %} #}
                 <div class="col-md-2 d-flex justify-content-end fs-3 ">
-                        <a href="" class="me-2"><i class="fas fa-trash text-danger"></i></a>
+                        <a href="{{ path('trick_delete', { 'id': trick.id }) }}" class="me-2"><i class="fas fa-trash text-danger"></i></a>
                         <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}"><i class="fas fa-edit text-primary"></i></a>
                 </div>
                 {# {% endif %} #}
@@ -67,7 +71,8 @@
                             <div class="row">
                                 {% for video in trick.videos %}
                                     <div class="col-md-6 mb-3">
-                                        <iframe class="" src="https://www.youtube.com/embed/AMsWP9WJS_0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    
+                                        <iframe class="iframes img-thumbnail" src="{{ video.videoUrl }}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
                                     </div>                                   
                                 {% endfor %}
                             </div>                                          
@@ -81,6 +86,7 @@
                 <h3>Description:</h3>
                 <p class="text-justify">{{ trick.description }}</p>
             </div>
+            <hr>
 
 
         </div>
@@ -93,4 +99,13 @@
 
     {% block javascripts %}
         <script src="/assets/js/showMedia.js"></script>
+        <script>
+        document.querySelectorAll('.iframes').forEach(element => {
+           
+            var video = element.src.substring(element.src.lastIndexOf('/') + 1);
+            element.src = "https://www.youtube.com/embed/"+ video
+        });
+        
+        </script>
+        
     {% endblock %}

@@ -18,10 +18,11 @@
                 
       </ul>
       <form class="d-flex">
-        <a href="{{ path('app_register') }}" class="btn btn-info me-sm-2" type="submit" >signUp</a>
+        
         {% if app.user %}
           <a href="{{ path('app_logout') }}" class="btn btn-danger my-2 my-sm-0" type="submit">Logout</a>
         {% else %}
+          <a href="{{ path('app_register') }}" class="btn btn-info me-sm-2" type="submit" >signUp</a>
           <a href="{{ path('app_login') }}" class="btn btn-success my-2 my-sm-0" type="submit">Login</a>
         {% endif %}       
       </form>

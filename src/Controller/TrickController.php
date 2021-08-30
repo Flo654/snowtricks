@@ -70,9 +70,9 @@ class TrickController extends AbstractController
     /**
      * Undocumented function
      *
-     * @Route("/{id}/edit", name="trick_edit")
+     * @Route("/edit/{id}", name="trick_edit")
      */
-    public function edit(Request $request, EntityManagerInterface $entityManager, Trick $trick, UploadFile $uploadFile) :Response
+    public function edit(Request $request, EntityManagerInterface $entityManager, Trick $trick, UploadFile $uploadFile, $id ) :Response
     {
         $form = $this->createForm(TrickFormType::class, $trick)->handleRequest($request);
         
@@ -101,13 +101,30 @@ class TrickController extends AbstractController
      * @Route("/delete/image/{id}", name="picture_remove_image", methods={"DELETE"})
      */
     public function removeImage(Picture $picture, Request $request, EntityManagerInterface $entityManager)
-    {
-       
-
+    {    
         $nom = $picture->getFilename();
         unlink($this->getParameter('images_directory').'/'.$nom);
         $entityManager->remove($picture);
         $entityManager->flush(); 
         return new JsonResponse(['success' => 1]);
+    }
+
+
+    /**
+     * 
+     *
+     * @Route("/delete/{id}", name="trick_delete")
+     */
+    public function delete($id, TrickRepository $trickRepository, EntityManagerInterface $entityManager )
+    {
+       $trick =  $trickRepository->find($id);
+       $pictures = $trick->getPictures()->getValues();
+       foreach ($pictures as $picture) {
+            unlink($this->getParameter('images_directory').'/'.$picture->getFilename());
+       }
+       $entityManager->remove($trick);
+       $entityManager->flush();
+       $this->addFlash('success', 'trick deleted with success');
+       return $this->redirectToRoute('home');
     }
 }

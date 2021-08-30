@@ -19,21 +19,38 @@
             </div>   
             {% for form in form.pictures %}
                 
-                <div class="mt-2 test">
+                <div class="mt-2 test  col-md-2">
                     {{form_row(form.filename)}}
                     <img src="{{ asset('/uploads/' ~ form.vars.value.filename )}}" alt="" class="img-thumbnail previsu">
-                    <div class="mt-2">
-                        <a href=" {{path('picture_remove_image', {'id': form.vars.value.id })}}" class="btn btn-danger remove">remove</a>
-                        <button type="button" class="btn btn-primary modify">modify</button>
+                    <div class="mt-2 text-end me-2">
+                        <a href="{{path('picture_remove_image', {'id': form.vars.value.id })}}" class="remove text-decoration-none ">
+                            <i class="fas fa-trash text-danger"></i>
+                        </a>
+                        <a type="button" class="modify text-decoration-none">
+                            <i class="fas fa-pen text-primary"></i>
+                        </a>
                     </div>                         
                 </div>       
                 
             {% endfor %} 
-         
+
+        <button type="button" class="btn btn-success btn-new-video mt-3" data-collection="#videos">Add video</button>
+        <div
+                id="videos"
+                class="row"
+                data-prototype="{{ include("trick/form/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}"
+                data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
+            >
+            
+        </div> 
         
         {% for form in form.videos %}
             <div class="mt-5">
-                {{form_row(form.videoUrl)}}
+                {{form_label(form.videoUrl)}}
+                <a href="{{path('picture_remove_image', {'id': form.vars.value.id })}}" class="d-flex align-items-center position-relative text-decoration-none">
+                    {{form_widget(form.videoUrl)}}
+                    <i class="fas fa-trash text-danger m-2 position-absolute  top-0 end-0"></i>
+                </a>
             </div>
             
              {# {{ dump(form) }}  #}    

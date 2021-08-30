@@ -9,8 +9,8 @@
                             <h4 class="card-title">{{trick.name | upper }}</h4>
                             {% if app.user %}
                             <div>
-                                <a href="#"><i class="fas fa-pen me-2 p-1 border rounded"></i></a>
-                                <a href="#"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a>
+                                <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}"><i class="fas fa-pen me-2 p-1 border rounded"></i></a>
+                                <a href="{{ path('trick_delete', { 'id': trick.id }) }}"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a>
                             </div>
                             {% endif %}
                         </div>                        
