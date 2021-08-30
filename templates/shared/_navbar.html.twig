@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
   <div class="container-fluid">
     <a class="navbar-brand text-uppercase" href="#">Snowtriks</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,10 +18,11 @@
                 
       </ul>
       <form class="d-flex">
-        <a href="{{ path('app_register') }}" class="btn btn-info me-sm-2" type="submit" >signUp</a>
+        
         {% if app.user %}
           <a href="{{ path('app_logout') }}" class="btn btn-danger my-2 my-sm-0" type="submit">Logout</a>
         {% else %}
+          <a href="{{ path('app_register') }}" class="btn btn-info me-sm-2" type="submit" >signUp</a>
           <a href="{{ path('app_login') }}" class="btn btn-success my-2 my-sm-0" type="submit">Login</a>
         {% endif %}       
       </form>

@@ -175,7 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
-        $this->UpdatedAt = $updatedAt;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

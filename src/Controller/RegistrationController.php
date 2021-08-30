@@ -32,8 +32,9 @@ class RegistrationController extends AbstractController
                         $form->get('plainPassword')->getData()
                     )                
                 )
+                ->setRoles(["ROLE_USER"])
                 ->setCreatedAt(new DateTime('NOW'))
-                ->setupdatedAt(new DateTime('NOW'))
+                ->setUpdatedAt(new DateTime('NOW'))
             ;
 
             $entityManager = $this->getDoctrine()->getManager();

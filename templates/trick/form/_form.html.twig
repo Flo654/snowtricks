@@ -6,10 +6,12 @@
         id="pictures"
         class="row"
         data-prototype="{{ include("trick/form/_picture.html.twig", {form: form.pictures.vars.prototype})|e("html_attr") }}"
-        data-index="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}">
+        data-index="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}"
+    >
     {% for picture in form.pictures %}
         <div class="col-4">
             {{ include("trick/form/_picture.html.twig", {form: picture}) }}
+            
         </div>
     {% endfor %}
 </div>

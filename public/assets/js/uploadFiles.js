@@ -1,5 +1,6 @@
 
     const newImage= (e)=>{
+        
         const collectionHolder = document.querySelector(e.currentTarget.dataset.collection)
         const item = document.createElement('div');        
         item.classList.add('col-md-4');
@@ -17,7 +18,8 @@
         collectionHolder.querySelectorAll('.custom-file').forEach(item => { 
             item.addEventListener('change', (e)=>{
                 const img = document.createElement('img')
-                img.classList.add('img-thumbnail')            
+                img.classList.add('img-thumbnail')
+                img.style.width = '200'           
                 e.currentTarget.appendChild(img)        
                 var url = URL.createObjectURL(e.currentTarget.querySelector('input').files[0]);
                 img.src = url
@@ -49,6 +51,7 @@
                 const iframe = e.currentTarget.previousSibling.parentNode.nextElementSibling.querySelector('iframe')
                 iframe.src = "https://www.youtube.com/embed/" + video
                 iframe.classList.remove('d-none')
+                iframe.setAttribute("class", video)
             })
         })
         
@@ -59,9 +62,8 @@
     .forEach(btn => btn
     .addEventListener('click', (e)=> e.currentTarget.closest('.item').remove()));
 
-    document.querySelectorAll('.btn-new-image')
-    .forEach(btn => btn
-    .addEventListener('click', newImage));
+    document.querySelector('.btn-new-image')  
+    .addEventListener('click', newImage);
 
     document.querySelectorAll('.btn-new-video')
     .forEach(btn => btn
