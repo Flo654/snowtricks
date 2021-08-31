@@ -16,7 +16,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/{trickId}/comments/{page}", name="paginated_comments")
      */
-    public function paginatedComments($trickId, CommentRepository $commentRepository ,$page= 1, $limit = 10): Response
+    public function paginatedComments($trickId, CommentRepository $commentRepository ,$page= 1, $limit = 3): Response
     {
         $comments = $commentRepository
             ->findBy(
@@ -29,7 +29,8 @@ class CommentController extends AbstractController
         
         return $this->render('comment/index.html.twig', [
             'comments' => $comments,
-            'nbOfPage' => ceil(count($commentRepository->findBy(['trick' => $trickId]))/$limit)
+            'nbOfPage' => ceil(count($commentRepository->findBy(['trick' => $trickId]))/$limit),
+            'page' => $page
         ]);
     }
 

@@ -1,21 +1,18 @@
 <div class="example-wrapper">
     {% for comment in comments %}
-
-    <div class="comment-container d-flex mt-5">
-                                <div class="comment-icon">
-                                    <i class="fas fa-user rounded-circle bg-secondary p-2 fs-1"></i>
-                                </div>
-                                <div class="comment-info ms-2">
-                                    <p>                                        
-                                        <span class="fw-bold">{{comment.user.getFullname}}</span> <small class="fst-italic text-muted">publié le {{ comment.createdAt | format_datetime( locale='fr') }}</small> <br>
-                                        {{comment.content}}
-                                    </p>
-                                </div>
-
-
-                            </div>
-                            <hr>
-        
+        <div class="comment-container d-flex mt-5">
+            <div class="comment-icon">
+                <i class="fas fa-user rounded-circle bg-secondary p-2 fs-1"></i>
+            </div>
+            <div class="comment-info ms-2">
+                <p>                                        
+                    <span class="fw-bold">{{comment.user.getFullname}}</span> <small class="fst-italic text-muted">publié le {{ comment.createdAt | format_datetime( locale='fr') }}</small> <br>
+                    {{comment.content}}
+                </p>
+            </div>
+        </div>
+        <hr>        
     {% endfor %}
+    <div id="comment"></div>
 </div>
 

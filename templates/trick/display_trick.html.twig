@@ -117,6 +117,9 @@
                         <div class="comments-wrapper shadow p-3 mb-3 rounded">                            
                             <p class="pb-5">{{ trick.comments|length }} commentaire(s)</p>                           
                             {{ render(path('paginated_comments', {page: 1, trickId: trick.id })) }}
+                            <div class="mt-5 text-center page" >
+                                <a href="{{path('paginated_comments', {trickId: trick.id })}}/2" id="loadMore" data-id="{{ trick.id }}" data-page ="2" class="p rounded">Load more ...</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -129,6 +132,7 @@
     {% endblock %}
 
     {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/assets/js/showMedia.js"></script>
         <script>
         document.querySelectorAll('.iframes').forEach(element => {
@@ -138,5 +142,5 @@
         });
         
         </script>
-        
+        <script src="/assets/js/loadMoreMessage.js"> </script>
     {% endblock %}
