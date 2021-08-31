@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Picture;
 use DateTime;
 use App\Entity\Trick;
+use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use App\Repository\TrickRepository;
 use App\Services\UploadFile;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,11 +28,28 @@ class TrickController extends AbstractController
     /**
      * @Route("/tricks/{category_slug}/{slug}", name="trick_show")
      */
-    public function display($slug, TrickRepository $trickRepository): Response
+    public function display($slug, TrickRepository $trickRepository, EntityManagerInterface $entityManager, Request $request): Response
     {
-        
+        $comment = new Comment;
+        $user = $this->getUser();
+        $trick = $trickRepository->findOneBy(['slug'=> $slug]);
+        dump($trick, $user);
+        $form = $this->createForm(CommentFormType::class, $comment)->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $comment
+                ->setCreatedAt(new DateTime('NOW'))
+                ->setUpdatedAt(new DateTime('NOW'))
+                ->setTrick($trick)
+                ->setUser($user)
+            ;
+            $entityManager->persist($comment);            
+            $entityManager->flush() ;
+            $this->addFlash('success', 'message created with success');
+        }
+
         return $this->render('trick/display_trick.html.twig', [
-            'trick' => $trickRepository->findOneBy(['slug'=> $slug])
+            'trick' => $trick,
+            'form' => $form->createView()
         ]);
     }
 
@@ -38,10 +58,8 @@ class TrickController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, UploadFile $uploadFile): Response 
     {
-        $trick = new Trick;
-        
+        $trick = new Trick;        
         $form = $this->createForm(TrickFormType::class, $trick)->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid()){
             
             $uploadFile->uploadPictures($form, $trick);

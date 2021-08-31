@@ -24,7 +24,7 @@ class HomeController extends AbstractController
      */
     public function paginated(TrickRepository $trickRepository, $page=1, $limit=6): Response
     {
-        $tricks = $trickRepository->findBy([],[], $limit, ($limit *($page - 1)));
+        $tricks = $trickRepository->findBy([],['createdAt' => 'DESC'], $limit, ($limit *($page - 1)));
         $nbOfPages = ceil((count($trickRepository->findAll())) / $limit);
         
         return $this->render('shared/_trickList.html.twig',[
