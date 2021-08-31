@@ -2,10 +2,7 @@
 
 {% block title %}{{ trick.name }}{% endblock %}
     {% block body %}
-     {% if trick.pictures is defined %}
-     <h2>coucou</h2>
-     {% endif %}
-          
+              
         <div class="container top">
             <ol class="breadcrumb ">
                 <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
@@ -13,7 +10,11 @@
             </ol>
 
             <div class="headPicture-wrapper">
+            {% if trick.pictures|length %}
+                <img class="w-100" src="{{ asset('/uploads/'~ trick.pictures[0].filename) }}"  >
+            {% else %}
                 <img class="img-fluid" src="/assets/img/jumbo-img.jpg" alt="">
+            {% endif %}
             </div>
             <hr>
 
@@ -36,12 +37,12 @@
                     <i class="fas fa-snowboarding text-white me-2 p-2 rounded-circle bg-success"></i>
                     <div>{{ trick.name }}</div>
                 </div>
-                {# {% if app.user %} #}
+                {% if app.user %}
                 <div class="col-md-2 d-flex justify-content-end fs-3 ">
                         <a href="{{ path('trick_delete', { 'id': trick.id }) }}" class="me-2"><i class="fas fa-trash text-danger"></i></a>
                         <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}"><i class="fas fa-edit text-primary"></i></a>
                 </div>
-                {# {% endif %} #}
+                {% endif %}
             
             </div>
             <hr>
@@ -91,13 +92,47 @@
 
         </div>
         <div class="col-md-12 marginTop">
+            {% if  app.user %}
+                    <div class="container text-align-start mb-5">
+                        <h2>Laissez un commentaire</h2>
+                        {{ form_start(form)}}
+                            {{ form_row(form.content) }}
+                            <button class="btn btn-primary mt-1">create message</button>
+                        {{ form_end(form) }}
+                        <hr>
+                    </div>
+                    
+                {% else %}
             <div class="comments text-center p-3">
-                <p><a href="/register">Inscrivez-vous</a> ou <a href="/login">connectez vous</a> pour commenter cet article</p>
+                                
+                    <p><a href="/register">Inscrivez-vous</a> ou <a href="/login">connectez vous</a> pour commenter cet article</p>
+                {% endif %}
+
             </div>
         </div>
+        {% if trick.comments|length %}
+            <section class="comments container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="comments-wrapper shadow p-3 mb-3 rounded">                            
+                            <p class="pb-5">{{ trick.comments|length }} commentaire(s)</p>                           
+                            {{ render(path('paginated_comments', {page: 1, trickId: trick.id })) }}
+                            <div class="mt-5 text-center page" >
+                                <a href="{{path('paginated_comments', {trickId: trick.id })}}/2" id="loadMore" data-id="{{ trick.id }}" data-page ="2" class="p rounded">Load more ...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% else %}
+            <p class="container">pas de commentaires pour l'instant</p>
+        {% endif %}
+        
+        
     {% endblock %}
 
     {% block javascripts %}
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="/assets/js/showMedia.js"></script>
         <script>
         document.querySelectorAll('.iframes').forEach(element => {
@@ -107,5 +142,5 @@
         });
         
         </script>
-        
+        <script src="/assets/js/loadMoreMessage.js"> </script>
     {% endblock %}

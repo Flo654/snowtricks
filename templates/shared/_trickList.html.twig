@@ -3,7 +3,11 @@
         <div class="mb-5 col-md-6 col-lg-6 col-xl-4 ">
              
                 <div class="card "  >
-                    <img class="" src="assets/img/slide-trick.jpg" alt="image du produit">
+                    {% if trick.pictures|length %}
+                        <img class="w-100" src="{{ asset('/uploads/'~ trick.pictures[0].filename) }}"  >
+                    {% else %}
+                        <img class="img-fluid" src="/assets/img/jumbo-img.jpg" alt="">
+                    {% endif %}
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between">
                             <h4 class="card-title">{{trick.name | upper }}</h4>
