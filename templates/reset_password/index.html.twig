@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ResetPasswordController!{% endblock %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    {{form_start(form)}}
+        {{ form_row(form.plainPassword) }}
+        <button class="btn btn-primary mt-1">submit</button>
+    {{form_end(form)}}
+</div>
+{% endblock %}

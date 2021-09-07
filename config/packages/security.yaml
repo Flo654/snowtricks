@@ -22,6 +22,10 @@ security:
             custom_authenticator: App\Security\LoginAuthenticator
             logout:
                 path: app_logout
+            login_link:
+                check_route: reset_password
+                success_handler: App\Security\Authentication\AuthenticationSuccessHandler
+                signature_properties: ['id']
                 # where to redirect after logout
                 # target: app_any_route
 

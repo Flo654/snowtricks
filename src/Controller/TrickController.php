@@ -33,7 +33,7 @@ class TrickController extends AbstractController
         $comment = new Comment;
         $user = $this->getUser();
         $trick = $trickRepository->findOneBy(['slug'=> $slug]);
-        dump($trick, $user);
+        
         $form = $this->createForm(CommentFormType::class, $comment)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $comment
@@ -118,12 +118,12 @@ class TrickController extends AbstractController
      *
      * @Route("/delete/image/{id}", name="picture_remove_image", methods={"DELETE"})
      */
-    public function removeImage(Picture $picture, Request $request, EntityManagerInterface $entityManager)
+    public function removeImage(Picture $picture, EntityManagerInterface $entityManager)
     {    
         $nom = $picture->getFilename();
-        unlink($this->getParameter('images_directory').'/'.$nom);
         $entityManager->remove($picture);
-        $entityManager->flush(); 
+        $entityManager->flush();
+        unlink($this->getParameter('images_directory').'/'.$nom);
         return new JsonResponse(['success' => 1]);
     }
 
@@ -137,11 +137,11 @@ class TrickController extends AbstractController
     {
        $trick =  $trickRepository->find($id);
        $pictures = $trick->getPictures()->getValues();
-       foreach ($pictures as $picture) {
-            unlink($this->getParameter('images_directory').'/'.$picture->getFilename());
-       }
        $entityManager->remove($trick);
        $entityManager->flush();
+       foreach ($pictures as $picture) {
+            unlink($this->getParameter('images_directory').'/'.$picture->getFilename());
+        }
        $this->addFlash('success', 'trick deleted with success');
        return $this->redirectToRoute('home');
     }
