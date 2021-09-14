@@ -113,12 +113,19 @@
         {% if trick.comments|length %}
             <section class="comments container">
                 <div class="row">
+                <div>{{ nbOfPage }}</div>
                     <div class="col-md-12">
                         <div class="comments-wrapper shadow p-3 mb-3 rounded">                            
                             <p class="pb-5">{{ trick.comments|length }} commentaire(s)</p>                           
-                            {{ render(path('paginated_comments', {page: 1, trickId: trick.id })) }}
+                            {{ render(path('paginated_comments', {page: page, trickId: trick.id })) }}
                             <div class="mt-5 text-center page" >
-                                <a href="{{path('paginated_comments', {trickId: trick.id })}}/2" id="loadMore" data-id="{{ trick.id }}" data-page ="2" class="p rounded">Load more ...</a>
+                            {% if nbOfPage == 1 %}
+
+                            {% else %}
+                                <a href="{{path('paginated_comments', {trickId: trick.id })}}/{{page + 1}}" id="loadMore" data-id="{{ trick.id }}" data-page ="2" data-nbOfPage = "{{nbOfPage}}" class="p rounded">Load more ...</a> 
+                            {% endif %}
+                            
+                               
                             </div>
                         </div>
                     </div>

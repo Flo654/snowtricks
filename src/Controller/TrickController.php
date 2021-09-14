@@ -8,6 +8,7 @@ use DateTime;
 use App\Entity\Trick;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use App\Services\UploadFile;
 use Doctrine\ORM\EntityManager;
@@ -28,7 +29,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/tricks/{category_slug}/{slug}", name="trick_show")
      */
-    public function display($slug, TrickRepository $trickRepository, EntityManagerInterface $entityManager, Request $request): Response
+    public function display($slug, TrickRepository $trickRepository, CommentRepository $commentRepository , EntityManagerInterface $entityManager, Request $request): Response
     {
         $comment = new Comment;
         $user = $this->getUser();
@@ -49,7 +50,9 @@ class TrickController extends AbstractController
 
         return $this->render('trick/display_trick.html.twig', [
             'trick' => $trick,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'nbOfPage' => ceil(count($commentRepository->findBy(['trick' => $trick->getId()]))/ Comment::LIMIT_COMMENT_DISPLAY),
+            'page' => 1
         ]);
     }
 
@@ -72,10 +75,7 @@ class TrickController extends AbstractController
             $entityManager->persist($trick);            
             $entityManager->flush() ;
             $this->addFlash('success', 'trick created with success');            
-            return $this->redirectToRoute('trick_show',[
-                'category_slug' => $trick->getCategory()->getSlug(),
-                'slug' => $trick->getSlug()
-            ]);
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('trick/create_trick.html.twig', [
@@ -100,10 +100,7 @@ class TrickController extends AbstractController
             $uploadFile->uploadPictures($form, $trick);                       
             $entityManager->flush() ;
             $this->addFlash('success', 'trick modified with success');            
-            return $this->redirectToRoute('trick_show',[
-                'category_slug' => $trick->getCategory()->getSlug(),
-                'slug' => $trick->getSlug()
-            ]);
+            return $this->redirectToRoute('home');
         }
 
 
