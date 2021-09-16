@@ -4,17 +4,18 @@
 
 {% block jumbo %}
     <div class="jumbo">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
+    <div class="">
+        <div class="">
+            <div class="">
                 <div class="bloc">
-                   
+                <h1 class="text-white text-center titlet text-uppercase">Join us to have funny tricks</h1>
+                   <a href="#tricks" class="scrollDown btn "><i class="fas fa-arrow-down fa-3x text-success"></i></a>
                 </div>
             </div>
         </div>
     </div>
     </div>
-
+    
 {% endblock %}
 
 {% block body %}  
@@ -34,6 +35,7 @@
 
     </div>
 
+    <button class="scrollToTop btn"><i class="fas fa-arrow-up fa-3x text-success"></i></button>  
 
 
 {% endblock %}
@@ -41,5 +43,5 @@
 {% block javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/assets/js/loadMore.js"> </script>
-
+    <script src="/assets/js/scrollTop.js"></script>
 {% endblock %}

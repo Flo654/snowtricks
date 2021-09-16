@@ -3,12 +3,27 @@
 {% block title %}Edit a trick{% endblock %}
 
 {% block body %}
+    <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{path('trick_show', {
+                                        'category_slug': trick.category.slug,
+                                        'slug': trick.slug })}}" 
+                                >
+                                {{trick.name}}
+                            </a></li>
+                <li class="breadcrumb-item active">Edit</li>
+     </ol>
+     <h2>Edit a trick:</h2>
     {{ form_start(form) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.description) }}
-        {{ form_widget(form._token) }}
-        {{ form_row(form.category) }}
+        <div class="my-custom-class-for-errors">
+        {{ form_errors(form) }}
+        </div>
+        <div class="mt-2 mb-4">{{ form_row(form.name) }}</div>
+        <div class="mt-2 mb-4">{{ form_row(form.description) }}</div>
+        <div class="mt-2 mb-4">{{ form_widget(form._token) }}</div>
+        <div class="mt-2 mb-4">{{ form_row(form.category) }}</div>        
         <button type="button" class="btn btn-success btn-new-image mt-3" data-collection="#pictures">Add image</button>
+        <p class="text-info">(choose jpeg, jpg or png files)</p>
         <div
                 id="pictures"
                 class="row"
@@ -16,44 +31,49 @@
                 data-index="{{ form.pictures|length > 0 ? form.pictures|last.vars.name + 1 : 0 }}"
             >
             
-            </div>   
+            </div> 
+             
             {% for form in form.pictures %}
-                
-                <div class="mt-2 test  col-md-2">
-                    {{form_row(form.filename)}}
-                    <img src="{{ asset('/uploads/' ~ form.vars.value.filename )}}" alt="" class="img-thumbnail previsu">
-                    <div class="mt-2 text-end me-2">
-                        <a href="{{path('picture_remove_image', {'id': form.vars.value.id })}}" class="remove text-decoration-none ">
-                            <i class="fas fa-trash text-danger"></i>
-                        </a>
-                        <a type="button" class="modify text-decoration-none">
-                            <i class="fas fa-pen text-primary"></i>
-                        </a>
-                    </div>                         
-                </div>       
-                
+               {% if form.vars.value.id|default %}
+                    <div class="mt-2 test  col-md-2">
+                        {{form_row(form.filename)}}                    
+                            <img src="{{ asset('/uploads/' ~ form.vars.value.filename )}}" alt="" class="img-thumbnail previsu">                   
+                            <div class="mt-2 text-end me-2">                            
+                                <a href="{{path('picture_remove_image', {'id': form.vars.value.id })}}" class="remove text-decoration-none ">                      
+                                    <i class="fas fa-trash-alt text-danger"></i>
+                                </a>                            
+                                <a type="button" class="modify text-decoration-none">
+                                    <i class="fas fa-pen text-info"></i>
+                                </a>
+                            </div>                         
+                    </div>       
+                {% endif %}
             {% endfor %} 
 
         <button type="button" class="btn btn-success btn-new-video mt-3" data-collection="#videos">Add video</button>
+        <p class="text-info">(choose link from youtube)</p>
         <div
-                id="videos"
-                class="row"
-                data-prototype="{{ include("trick/form/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}"
-                data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
-            >
+            id="videos"
+            class="row"
+            data-prototype="{{ include("trick/form/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}"
+            data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}"
+        >
             
         </div> 
         
         {% for form in form.videos %}
-            <div class="mt-5">
+            <div class="mt-5 position-relative">
                 {{form_label(form.videoUrl)}}
-                <a href="{{path('picture_remove_image', {'id': form.vars.value.id })}}" class="d-flex align-items-center position-relative text-decoration-none">
                     {{form_widget(form.videoUrl)}}
-                    <i class="fas fa-trash text-danger m-2 position-absolute  top-0 end-0"></i>
+                {% if form.vars.value.id|default %}
+                <a href="{{path('video_remove_link', {'id': form.vars.value.id })}}" class="remove_video d-flex align-items-center text-decoration-none">
+                    
+                    <i class="fas fa-trash-alt text-danger mt-1 me-2 position-absolute  top-50 end-0"></i>
                 </a>
+                {% endif %}
             </div>
             
-             {# {{ dump(form) }}  #}    
+                 
 
         {% endfor %}
         
@@ -63,6 +83,7 @@
 {% endblock %}
 
 {% block javascripts %}
+
     <script src="/assets/js/uploadFiles.js"></script>
     <script src="/assets/js/modifyAndRemovePicture.js"></script>
 

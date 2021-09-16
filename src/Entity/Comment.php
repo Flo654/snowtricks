@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comment
 {
-    const LIMIT_COMMENT_DISPLAY = 5;
+    const LIMIT_COMMENT_DISPLAY = 3;
 
     /**
      * @ORM\Id

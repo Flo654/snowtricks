@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\Exception\LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
@@ -52,7 +53,8 @@ class SecurityController extends AbstractController
             $email = $user->getEmail();
             $userp = $userRepository->findOneBy(['email' => $email]);
             if(!$userp){
-                $this->addFlash('fail', "cette adresse n'existe pas dans la base de données!");
+                
+               $this->addFlash('fail', "cette adresse n'existe pas dans la base de données!");
                 return $this->redirectToRoute('reset');
             }
             $loginLinkDetails = $loginLinkHandler->createLoginLink($userp);

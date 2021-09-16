@@ -1,12 +1,8 @@
 <?php
 namespace App\Services;
 
-
 use DateTime;
-
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
-
 
 class UploadFile 
 {

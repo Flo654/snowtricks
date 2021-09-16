@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Entity\Picture;
 use DateTime;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\CommentFormType;
 use App\Form\TrickFormType;
 use App\Repository\CommentRepository;
@@ -92,11 +93,11 @@ class TrickController extends AbstractController
      */
     public function edit(Request $request, EntityManagerInterface $entityManager, Trick $trick, UploadFile $uploadFile, $id ) :Response
     {
-        $form = $this->createForm(TrickFormType::class, $trick)->handleRequest($request);
+        $form = $this->createForm(TrickFormType::class, $trick);
+        $form->handleRequest($request);
         
         if($form->isSubmitted() && $form->isValid() ){
-            
-            //$uploadFile->unlinkPictures($form, $trick);
+                        
             $uploadFile->uploadPictures($form, $trick);                       
             $entityManager->flush() ;
             $this->addFlash('success', 'trick modified with success');            
@@ -110,21 +111,6 @@ class TrickController extends AbstractController
         ]);
     }
     
-    /**
-     * 
-     *
-     * @Route("/delete/image/{id}", name="picture_remove_image", methods={"DELETE"})
-     */
-    public function removeImage(Picture $picture, EntityManagerInterface $entityManager)
-    {    
-        $nom = $picture->getFilename();
-        $entityManager->remove($picture);
-        $entityManager->flush();
-        unlink($this->getParameter('images_directory').'/'.$nom);
-        return new JsonResponse(['success' => 1]);
-    }
-
-
     /**
      * 
      *
