@@ -10,6 +10,7 @@ use App\Form\PictureFormType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,11 +36,13 @@ class TrickFormType extends AbstractType
                 'entry_type' => PictureFormType::class,
                 "entry_options" => [
                     "label" => false,
+                    
                 ],
                 'allow_add' => true,
                 'allow_delete'=>true,
                 'by_reference' => false,
-                'required' => false
+                'required' => false,
+                'delete_empty'=> true
                 
 
             ])
@@ -50,7 +53,8 @@ class TrickFormType extends AbstractType
                 ],
                 'allow_add' => true,
                 'allow_delete'=>true,
-                'by_reference' => false
+                'by_reference' => false,
+                'delete_empty'=> true
             ])
             
         ;

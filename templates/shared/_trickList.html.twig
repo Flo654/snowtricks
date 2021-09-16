@@ -1,4 +1,5 @@
-<div class="row " id="trick">    
+<div class="row" id="trick"> 
+ 
     {% for trick in tricks %}
         <div class="mb-5 col-md-6 col-lg-6 col-xl-4 ">
              
@@ -12,9 +13,9 @@
                         <div class="d-flex align-items-center justify-content-between">
                             <h4 class="card-title">{{trick.name | upper }}</h4>
                             {% if app.user %}
-                            <div>
-                                <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}"><i class="fas fa-pen me-2 p-1 border rounded"></i></a>
-                                <a href="{{ path('trick_delete', { 'id': trick.id }) }}"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a>
+                            <div class="align-items-center">
+                                <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}" class=""><i class="fas fa-pen me-2 p-1 border rounded"></i></a>
+                                <a class="" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a>                                
                             </div>
                             {% endif %}
                         </div>                        
@@ -33,7 +34,23 @@
                 
             
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              
+              <div class="modal-body">
+                Do you really want to delete this trick ?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                <a href="{{ path('trick_delete', { 'id': trick.id }) }}" class="btn btn-primary">Yes</a>
+              </div>
+            </div>
+          </div>
+        </div>
     {% endfor %}
     
 </div>
+
 <input type="hidden" id='page' name='{{nbOfPages}}'>

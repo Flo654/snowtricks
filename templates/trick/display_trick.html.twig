@@ -21,10 +21,10 @@
             <div class="trick-info container">
                 <div class="row ">
                     <div class="col-md-5">
-                    <p class="travel"><span class="text-success fw-bolder">Ajouté le :</span> {{ trick.createdAt | format_datetime( locale='fr') }}</p>
+                    <p class="travel"><span class="text-success fw-bolder">Add :</span> {{ trick.createdAt | format_datetime( locale='fr') }}</p>
                     </div>
                     <div class="col-md-5">
-                    <p class="travel "><span class="text-success fw-bolder">catégorie :</span> <span class="badge bg-info">{{ trick.category.name }}</span></p>
+                    <p class="travel "><span class="text-success fw-bolder">catégory :</span> <span class="badge bg-info">{{ trick.category.name }}</span></p>
                     </div>
                     
                 </div>            
@@ -38,22 +38,37 @@
                     <div>{{ trick.name }}</div>
                 </div>
                 {% if app.user %}
-                <div class="col-md-2 d-flex justify-content-end fs-3 ">
-                        <a href="{{ path('trick_delete', { 'id': trick.id }) }}" class="me-2"><i class="fas fa-trash text-danger"></i></a>
-                        <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}"><i class="fas fa-edit text-primary"></i></a>
+                <div class="col-md-2 d-flex justify-content-evenly fs-3 ">
+                        <a class="" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i class="fas fa-trash-alt p-1 border rounded text-danger"></i></a> 
+                        <a href="{{ path('trick_edit', { 'id': trick.id  } ) }}"><i class="fas fa-pen text-primary p-1 border rounded"></i></a>
                 </div>
                 {% endif %}
-            
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                    
+                    <div class="modal-body">
+                        Do you really want to delete this trick ?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        <a href="{{ path('trick_delete', { 'id': trick.id }) }}" class="btn btn-primary">Yes</a>
+                    </div>
+                    </div>
+                </div>
+                </div>
             </div>
             <hr>
-
+            
+            
             <section class="mediaContainer container-fluid">
                 <div class="text-center d-block   d-sm-block d-md-none">
                                 <a href="#" id="loadMedia" class="d-md-block d-lg-none">
-                                    <button class="btn btn-outline-secondary">Afficher les médias</button>
+                                    <button class="btn btn-outline-secondary">Show médias</button>
                                 </a>
                                 <a href="#" id="hideMedia" class="d-none d-md-none d-lg-none">
-                                    <button class="btn btn-secondary mt-3">Masquer les médias</button>
+                                    <button class="btn btn-secondary mt-3">Hide médias</button>
                                 </a>
                 </div>
                 <div class="media-wrapper d-sm-none d-md-block d-none d-sm-block" id="mediaBlock">
@@ -94,10 +109,10 @@
         <div class="col-md-12 marginTop">
             {% if  app.user %}
                     <div class="container text-align-start mb-5">
-                        <h2>Laissez un commentaire</h2>
+                        <h2>Leave a comment</h2>
                         {{ form_start(form)}}
                             {{ form_row(form.content) }}
-                            <button class="btn btn-primary mt-1">create message</button>
+                            <button class="btn btn-primary mt-1">Send comment</button>
                         {{ form_end(form) }}
                         <hr>
                     </div>
@@ -105,7 +120,7 @@
                 {% else %}
             <div class="comments text-center p-3">
                                 
-                    <p><a href="/register">Inscrivez-vous</a> ou <a href="/login">connectez vous</a> pour commenter cet article</p>
+                    <p><a href="/register">Register</a> or <a href="/login">log in</a> to comment this post</p>
                 {% endif %}
 
             </div>
@@ -115,17 +130,23 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="comments-wrapper shadow p-3 mb-3 rounded">                            
-                            <p class="pb-5">{{ trick.comments|length }} commentaire(s)</p>                           
-                            {{ render(path('paginated_comments', {page: 1, trickId: trick.id })) }}
+                            <p class="pb-5">{{ trick.comments|length }} comment(s)</p>                           
+                            {{ render(path('paginated_comments', {page: page, trickId: trick.id })) }}
                             <div class="mt-5 text-center page" >
-                                <a href="{{path('paginated_comments', {trickId: trick.id })}}/2" id="loadMore" data-id="{{ trick.id }}" data-page ="2" class="p rounded">Load more ...</a>
+                            {% if nbOfPage == 1 %}
+
+                            {% else %}
+                                <a href="{{path('paginated_comments', {trickId: trick.id })}}/{{page + 1}}" id="loadMore" data-id="{{ trick.id }}" data-page ="2" data-nbOfPage = "{{nbOfPage}}" class="p rounded">Load more ...</a> 
+                            {% endif %}
+                            
+                               
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
         {% else %}
-            <p class="container">pas de commentaires pour l'instant</p>
+            <p class="container">no comments</p>
         {% endif %}
         
         

@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\Image;
 
 class PictureFormType extends AbstractType
 {
@@ -16,6 +17,8 @@ class PictureFormType extends AbstractType
         $builder
             ->add('filename', FileType::class, [
                 'label' => false,
+                'error_bubbling' => true,
+                
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
                 // make it optional so you don't have to re-upload the file
@@ -24,7 +27,7 @@ class PictureFormType extends AbstractType
                 // unmapped fields can't define their validation using annotations
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
-                    new File([
+                    new Image([
                         'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/jpg',

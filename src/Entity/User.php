@@ -13,6 +13,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity("email", message="Email deja existant !")
+ * @UniqueEntity("fullName", message="Utilisateur deja existant !")
  * 
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -25,8 +27,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     * 
+     * @ORM\Column(name="email", type="string", length=180, unique=true)
+     * @Assert\Email
+     * @Assert\NotBlank
      */
     private $email;
 
@@ -42,8 +45,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
      /**
-     * @ORM\Column(type="string", length=255)
-     * 
+     * @ORM\Column(name="fullName", type="string", length=255, unique=true)
+     * @Assert\NotBlank
      */
     private $fullName;
 
@@ -61,6 +64,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user")
      */
     private $comments;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $validation_token;
 
     public function __construct()
     {
@@ -218,6 +226,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValidationToken(): ?string
+    {
+        return $this->validation_token;
+    }
+
+    public function setValidationToken(?string $validation_token): self
+    {
+        $this->validation_token = $validation_token;
 
         return $this;
     }

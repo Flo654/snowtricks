@@ -90,6 +90,13 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "start": [
+            "bin/console doctrine:database:drop --if-exists --force",
+            "bin/console d:d:c",
+            "bin/console d:m:m",
+            "bin/console d:f:l",
+            "symfony serve -d "
         ]
     },
     "conflict": {
