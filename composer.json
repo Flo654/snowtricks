@@ -92,10 +92,10 @@
             "@auto-scripts"
         ],
         "start": [
-            "php bin/console doctrine:database:drop --if-exists --force",
-            "php bin/console d:d:c",
-            "php in/console d:m:m",
-            "php bin/console d:f:l",
+            "php bin/console doctrine:database:drop --if-exists",
+            "php bin/console doctrine:database:create",
+            "php in/console doctrine:migration:migrate",
+            "php bin/console doctrine:fixture:load -n",
             "symfony serve -d "
         ]
     },
