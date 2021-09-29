@@ -13,7 +13,6 @@ you need to have composer installed (if not: https://getcomposer.org/download/)
 ### Step one: installing the repository
 
 *   Clone this repo on your:computer:
-*   from the root :file_folder: `snowtricks`. use  `composer install` , to load all dependancies.
 
 ### Step two: configuration
 
@@ -49,6 +48,7 @@ Replace `user`, `password`, and `database` by your credentials.
  At the end, the name of the file have to be `.env`.
 
  ## :gear: PROJECT LAUNCH
-
-*   To run the projet, from the root :file_folder: `snowtricks` , open a terminal and enter this command : `composer start`.
+ 
+*   Step1: from the root :file_folder: `snowtricks`. use  `composer install` , to load all dependancies.
+*   Step2: To run the projet, from the root :file_folder: `snowtricks` , open a terminal and enter this command : `composer start`.
 *   Follow the link and ....enjoy !! 
